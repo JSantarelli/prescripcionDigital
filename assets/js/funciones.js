@@ -1,18 +1,37 @@
+meds = ''
 
-let stock = parseInt(prompt('Ingrese una cantidad de articulos (una cifra): '))
+mostrarMedicamentos = () => {
+  for(let i in vademecum) {
+    meds = `${vademecum[i].nombreComercial}, ${vademecum[i].presentacion.cantidad}`
+    console.table(meds)
+  }
+}
 
-// Función
-function recorrerMedicamentos() {
-  // Ciclo
-  for(let i = 0; i < stock; i++) {
-    console.log(stock, i)
-    }
-    // Condicional
-    if (stock >= 7) {
-      console.error('No tenemos esa cantidad de articulos')
-    } else {
-      console.warn('Estos son los articulos en stock: ', stock)
-      }
+mostrarMedicamentos()
+
+// Obtengo cantidad de medicación inicial
+let cantidadMedicacion = parseInt(prompt('Ingrese cantidad de comprimidos disponibles: '))
+console.log(cantidadMedicacion)
+
+// Obtengo duración del tratamiento
+let duracionTratamiento = parseInt(prompt('Ingrese duración del tratamiento (días): '))
+console.log(duracionTratamiento)
+
+// Obtengo duración del tratamiento
+let dosisDiaria = parseInt(prompt('Cuántos comprimidos diarios debe consumir? '))
+console.log(dosisDiaria)
+
+calcularDosis = () => {
+  let dosisTotal = dosisDiaria * duracionTratamiento
+  let diferenciaDosis = dosisTotal - cantidadMedicacion
+
+  if (dosisTotal <= cantidadMedicacion) {
+    alert('Tienes suficiente medicación: ' + dosisTotal + ' comprimidos')
+  } else {
+    alert('Necesitarás: ' + diferenciaDosis + ' comprimidos extra')
+    console.warn('Necesitarás: ' + diferenciaDosis + ' comprimidos extra')
   }
 
-recorrerMedicamentos()
+}
+
+calcularDosis()
