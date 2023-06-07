@@ -3,11 +3,29 @@ meds = ''
 mostrarMedicamentos = () => {
   for(let i in vademecum) {
     meds = `${vademecum[i].nombreComercial}, ${vademecum[i].presentacion.cantidad}`
-    console.table(meds)
+    console.log(meds)
   }
+
 }
 
 mostrarMedicamentos()
+
+
+// Map + filter
+function listarCategorias() {
+  const arrayCategorias = vademecum.map ((med)=> { return med.presentacion.formaFarmaceutica})
+  const categoriasUnicas = [...new Set (arrayCategorias)]
+  console.table (categoriasUnicas)
+
+  categoriasUnicas.forEach((formaFarmaceutica)=> {
+      console.log(formaFarmaceutica)
+      const resultados = vademecum.filter((med)=> med.presentacion.formaFarmaceutica === formaFarmaceutica)
+      console.table(resultados)
+  })
+}
+
+listarCategorias()
+
 
 // Obtengo cantidad de medicación inicial
 let cantidadMedicacion = parseInt(prompt('Ingrese cantidad de comprimidos disponibles: '))
