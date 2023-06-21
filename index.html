@@ -15,11 +15,17 @@
 
         <aside>
             
+            <fieldset>
+                <legend>Información del paciente</legend>
+                <label for="">Nombre del paciente</label>
+                <input type="field" placeholder="Ingrese su nombre" id="infoPaciente">
+                <button onClick="mostrarPaciente()">Aceptar</button>
+            </fieldset>
 
             <!-- Setteo medicamento -->
 
             <label for="nombreMedicamento">Medicamento</label>
-            <select name="nombreMedicamento" id="nombreMedicamento" onChange="selectedMedicamento()">
+            <select name="nombreMedicamento" id="nombreMedicamento" onChange="seleccionarMed()">
                 <option value="0">Seleccione medicamento</option>
             </select>
             <fieldset>
@@ -29,20 +35,8 @@
                 <input type="number" id="dosisCantidad" onChange="getCantidad()">
                 <br>
                 <label for="dosisUnidad">Forma farmacéutica</label>
-                <select name="dosisUnidad" id="">
-                    <option value="">Ampolla</option>
-                    <option value="">Cápsula blanda</option>
-                    <option value="">Cápsula dura</option>
-                    <option value="">Comprimido de liberación prolongada</option>
-                    <option value="">Comprimido gastroresistente</option>
-                    <option value="">Comprimido recubierto</option>
-                    <option value="">Envase</option>
-                    <option value="">Frasco</option>
-                    <option value="">Frasco gotero plástico</option>
-                    <option value="">Jerínga prellenada</option>
-                    <option value="">Lapicera para inyección</option>
-                    <option value="">Pomo</option>
-                    <option value="">Vial</option>
+                <select name="dosisUnidad" id="dosisUnidad">
+                    <option value="0">Seleccione unidad</option>
                 </select>
             </fieldset>
 
@@ -67,7 +61,8 @@
                 <input type="date" id="fechaFin" name="fechaFin" onChange="calcDuracion()">
             </fieldset>
 
-            <button onclick="calcRefill()">Tengo suficiente medicación?</button>
+            <!-- <button onclick="calcRefill()">Tengo suficiente medicación?</button> -->
+            <button id="btnStorage">Guardar prescripción</button>
 
             <!-- <label for="viaAdministracion">Vía de adminitración</label>
             <select name="viaAdministracion" id="">
@@ -98,9 +93,10 @@
 
 
         <main>
-
-            <div class="sidepanel">
+            <h3 id="infoPaciente"></h3>
+            <div id="container" class="sidepanel main__grid--fit">
                 
+            </div>
             
             <div class="container--top">
             

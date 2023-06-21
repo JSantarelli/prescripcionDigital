@@ -673,3 +673,19 @@ const vademecum = [
     }
   ]
   
+
+const unidades = [
+  'Ampolla',
+  'Cápsula blanda',
+  'Cápsula dura',
+  'Comprimido de liberación prolongada',
+  'Comprimido gastroresistente',
+  'Comprimido recubierto',
+  'Envase',
+  'Frasco',
+  'Frasco gotero plástico',
+  'Jerínga prellenada',
+  'Lapicera para inyección',
+  'Pomo',
+  'Vial'
+]

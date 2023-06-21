@@ -1,55 +1,134 @@
-meds = ''
+// Alimento select con medicamentos
+dropdownMeds = document.getElementById('nombreMedicamento')
 
-mostrarMedicamentos = () => {
+listarMedicamentos = () => {
+
   for(let i in vademecum) {
-    meds = `${vademecum[i].nombreComercial}, ${vademecum[i].presentacion.cantidad}`
-    console.log(meds)
+    dropdownMeds.innerHTML += `<option value="${i}">${vademecum[i].nombreComercial}</option>`
   }
-
 }
 
-mostrarMedicamentos()
+listarMedicamentos()
+
+// Forma farmacéutica
+dropdownUnits = document.getElementById('dosisUnidad')
+
+listarUnidades = () => {
+
+  for(let i in unidades) {
+    dropdownUnits.innerHTML += `<option value="${i}">${unidades[i]}</option>`
+  }
+}
+
+listarUnidades()
+
+// Obtengo medicamento seleccionado
+function getCantidad() {
+  let cantidad = document.getElementById('dosisCantidad').value
+  console.log(cantidad)
+  }
 
 
-// Map + filter
-function listarCategorias() {
-  const arrayCategorias = vademecum.map ((med)=> { return med.presentacion.formaFarmaceutica})
-  const categoriasUnicas = [...new Set (arrayCategorias)]
-  console.table (categoriasUnicas)
+// Obtengo medicamento seleccionado
+function seleccionarMed() {
+  let selectedMed = dropdownMeds.options[dropdownMeds.selectedIndex]
+  console.log(selectedMed.text)
+  }
 
-  categoriasUnicas.forEach((formaFarmaceutica)=> {
-      console.log(formaFarmaceutica)
-      const resultados = vademecum.filter((med)=> med.presentacion.formaFarmaceutica === formaFarmaceutica)
-      console.table(resultados)
+
+// Pusheo datos a localStorage
+  const nombrePaciente = document.querySelector('#infoPaciente')
+  const medName = document.querySelector('#nombreMedicamento')
+  const medNumber = document.querySelector('#dosisCantidad')
+  const medUnit = document.querySelector('#dosisUnidad')
+  const btnStorage = document.querySelector('#btnStorage')
+  
+  btnStorage.addEventListener('click', () => {
+      if (medName.text !== '') {
+          localStorage.setItem('nombreMedicamento', medName.text)
+      }
+      if (medNumber.value !== '') {
+          localStorage.setItem('dosisCantidad', medNumber.value)
+      }
+      if (medUnit.value !== '') {
+          localStorage.setItem('dosisUnidad', medUnit.value)
+      }
   })
-}
+  
+    if (localStorage.getItem('nombreMed')) {
+      medName.text = localStorage.getItem('nombreMed')
+    }
+    if (localStorage.getItem('dosisCantidad')) {
+      medNumber.value = localStorage.getItem('dosisCantidad')
+    }
+    if (localStorage.getItem('dosisUnidad')) {
+      medUnit.value = localStorage.getItem('dosisUnidad')
+    }
+  
 
-listarCategorias()
 
-
-// Obtengo cantidad de medicación inicial
-let cantidadMedicacion = parseInt(prompt('Ingrese cantidad de comprimidos disponibles: '))
-console.log(cantidadMedicacion)
-
-// Obtengo duración del tratamiento
-let duracionTratamiento = parseInt(prompt('Ingrese duración del tratamiento (días): '))
-console.log(duracionTratamiento)
-
-// Obtengo duración del tratamiento
-let dosisDiaria = parseInt(prompt('Cuántos comprimidos diarios debe consumir? '))
-console.log(dosisDiaria)
-
-calcularDosis = () => {
-  let dosisTotal = dosisDiaria * duracionTratamiento
-  let diferenciaDosis = dosisTotal - cantidadMedicacion
-
-  if (dosisTotal <= cantidadMedicacion) {
-    alert('Tienes suficiente medicación: ' + dosisTotal + ' comprimidos')
-  } else {
-    alert('Necesitarás: ' + diferenciaDosis + ' comprimidos extra')
-    console.warn('Necesitarás: ' + diferenciaDosis + ' comprimidos extra')
+// Objeto medicamento
+const medicamentos = [
+  {
+      id: 123,
+      nombreComercial: 'Ibuprofeno',
+      dosisCantidad: 30,
+      dosisUnidad: 'Comprimidos'
+  },
+  {
+    id: 264,
+    nombreComercial: 'Lorazepam',
+    dosisCantidad: 50,
+    dosisUnidad: 'Comprimidos'
+  },
+  {
+    id: 873,
+    nombreComercial: 'Oxycontin',
+    dosisCantidad: 12,
+    dosisUnidad: 'Comprimidos'
   }
+] 
 
+
+// Almaceno tabla en localStorage: localStorage no permite almacenar objetos, sólo strings
+localStorage.setItem('misMedicamentos', medicamentos)
+
+// Stringify: Convertir a cadena de texto
+localStorage.setItem('misMedicamentos', JSON.stringify(medicamentos))
+
+// Parse: analizar sintácticamente
+JSON.parse(localStorage.getItem('misMedicamentos'))
+
+
+
+function mostrarPaciente() {
+    let infoPaciente = localStorage.getItem('Paciente')
+    document.getElementById('infoPaciente').innerHTML = infoPaciente
 }
 
-calcularDosis()
+
+  // Armado de cada prescripcion
+  function getCard(item) {
+    return `
+        <div role="button" aria-label="${item.nombreComercial}" class="card--vertical">
+            <h3>${item.id}</h3> 
+            <h3>${item.nombreComercial}</h3> 
+            <p>${item.dosisCantidad} ${item.dosisUnidad}</p>
+            <button id="${item.id}" class="card__btn--outline">Toma realizada</button>
+        </div>
+        `
+}
+
+
+// Cargo tarjetas de prescripciones
+let container = document.getElementById('container')
+
+function loadCards() {
+    container.innerHTML = ''
+    medicamentos.forEach((item) => {
+         container.innerHTML += getCard(item)
+
+    })
+}
+
+loadCards()
