@@ -1,132 +1,86 @@
-// Alimento select con medicamentos
-dropdownMeds = document.getElementById('nombreMedicamento')
+/* 
 
-listarMedicamentos = () => {
+FLUJO BASICO
+1. Usuario busca meds
+    a. Usuario selecciona fecha inicio / fin
+    b. Sistema calcula duración
+    c. Sistema calcula dosis necesaria
+    d. El resultado es mostrado en el contenedor al confirmar
+2. Selección med
+3. Meds seleccionados se muestran en contenedor
+4. Usuario guarda prescripción
 
-  for(let i in vademecum) {
-    dropdownMeds.innerHTML += `<option value="${i}">${vademecum[i].nombreComercial}</option>`
-  }
+*/
+
+
+// Renderizo resultados
+
+const resultsContainer = document.getElementById('containerResults')
+
+// Declaraciones prescripción
+const selectedMeds = () => JSON.parse(localStorage.getItem('prescription')) || []
+const prescription = selectedMeds()
+const url = 'assets/js/meds.json'
+const meds = [] 
+
+
+// Armado de prescripcion en base a meds seleccionados
+function getCard(med) {
+  return `
+      <li role="button" aria-label="${med.nombreComercial}" class="card--vertical">
+          <h3>${med.nombreComercial}</h3> 
+          <button id="${med.id}" class="card__btn--outline">Agregar</button>
+      </li>
+      `
 }
 
-listarMedicamentos()
-
-// Forma farmacéutica
-dropdownUnits = document.getElementById('dosisUnidad')
-
-listarUnidades = () => {
-
-  for(let i in unidades) {
-    dropdownUnits.innerHTML += `<option value="${i}">${unidades[i]}</option>`
-  }
-}
-
-listarUnidades()
-
-// Obtengo medicamento seleccionado
-function getCantidad() {
-  let cantidad = document.getElementById('dosisCantidad').value
-  console.log(cantidad)
-  }
-
-
-// Obtengo medicamento seleccionado
-function seleccionarMed() {
-  let selectedMed = dropdownMeds.options[dropdownMeds.selectedIndex]
-  console.log(selectedMed.text)
-  }
-
-
-// Pusheo datos a localStorage
-  const nombrePaciente = document.querySelector('#infoPaciente')
-  const medName = document.querySelector('#nombreMedicamento')
-  const medNumber = document.querySelector('#dosisCantidad')
-  const medUnit = document.querySelector('#dosisUnidad')
-  const btnStorage = document.querySelector('#btnStorage')
-  
-  btnStorage.addEventListener('click', () => {
-      if (medName.text !== '') {
-          localStorage.setItem('nombreMedicamento', medName.text)
-      }
-      if (medNumber.value !== '') {
-          localStorage.setItem('dosisCantidad', medNumber.value)
-      }
-      if (medUnit.value !== '') {
-          localStorage.setItem('dosisUnidad', medUnit.value)
-      }
-  })
-  
-    if (localStorage.getItem('nombreMed')) {
-      medName.text = localStorage.getItem('nombreMed')
-    }
-    if (localStorage.getItem('dosisCantidad')) {
-      medNumber.value = localStorage.getItem('dosisCantidad')
-    }
-    if (localStorage.getItem('dosisUnidad')) {
-      medUnit.value = localStorage.getItem('dosisUnidad')
-    }
-  
-
-
-// Objeto medicamento
-const medicamentos = [
-  {
-      id: 123,
-      nombreComercial: 'Ibuprofeno',
-      dosisCantidad: 30,
-      dosisUnidad: 'Comprimidos'
-  },
-  {
-    id: 264,
-    nombreComercial: 'Lorazepam',
-    dosisCantidad: 50,
-    dosisUnidad: 'Comprimidos'
-  },
-  {
-    id: 873,
-    nombreComercial: 'Oxycontin',
-    dosisCantidad: 12,
-    dosisUnidad: 'Comprimidos'
-  }
-] 
-
-
-// Almaceno tabla en localStorage: localStorage no permite almacenar objetos, sólo strings
-localStorage.setItem('misMedicamentos', medicamentos)
-
-// Stringify: Convertir a cadena de texto
-localStorage.setItem('misMedicamentos', JSON.stringify(medicamentos))
-
-// Parse: analizar sintácticamente
-JSON.parse(localStorage.getItem('misMedicamentos'))
-
-
-
-function mostrarPaciente() {
-    let infoPaciente = localStorage.getItem('Paciente')
-    document.getElementById('infoPaciente').innerHTML = infoPaciente
-}
-
-
-  // Armado de cada prescripcion
-  function getCard(item) {
+getError = () => {
+  getError = () => {
     return `
-        <div role="button" aria-label="${item.nombreComercial}" class="card--vertical">
-            <h3>${item.id}</h3> 
-            <h3>${item.nombreComercial}</h3> 
-            <p>${item.dosisCantidad} ${item.dosisUnidad}</p>
-            <button id="${item.id}" class="card__btn--outline">Toma realizada</button>
-        </div>
-        `
+            <h3>
+              Error!
+            </h3>
+            `
+  }
 }
 
+listMeds = () => {
+  //   for(let i in vademecum) {
+  //   resultsContainer.innerHTML += 
+  //     `<li>
+  //       <p>${vademecum[i].nombreComercial}</p>
+  //       <button id="${vademecum[i].id}" class="card__btn--outline">Agregar</button>
+  //     </li>`
+  // }
 
-// Cargo tarjetas de prescripciones
-let container = document.getElementById('container')
+  resultsContainer.innerHTML = ''
+  vademecum.length > 0 ? vademecum.forEach((med) => resultsContainer.innerHTML += getCard(med))
+                  : resultsContainer.innerHTML = getError()
+  activateButtons()
+}
+
+activateButtons = () => {
+  const buttons = document.querySelectorAll('button.card__btn--outline')
+  for (let btn of buttons) {
+    btn.addEventListener('click', (e)=> {
+        const selectedMed = vademecum.find((med) => med.id === parseInt(e.target.id))
+        console.log(e.target.id, selectedMed)
+        prescription.push(selectedMed)
+        alert(`The med '${selectedMed.nombreComercial}' has been added`)
+        localStorage.setItem('prescription', JSON.stringify(prescription))
+      })
+    }
+}
+
+listMeds()
+
+// Cargo tarjetas de meds
+let containerMeds = document.querySelector('div#containerMeds')
 
 function loadCards() {
-    container.innerHTML = ''
-    medicamentos.forEach((item) => {
-         container.innerHTML += getCard(item)
+    containerMeds.innerHTML = ''
+    meds.forEach((item) => {
+         containerMeds.innerHTML += getCard(item)
 
     })
 }

@@ -3,6 +3,7 @@
     <head>
         <title>JS!</title>
         <link rel="stylesheet" href="./styles.css">
+        <script defer src="assets/js/meds.json"></script>
         <script defer src="assets/js/meds.js"></script>
         <script defer src="assets/js/funciones.js"></script>
     </head>
@@ -17,84 +18,22 @@
             
             <fieldset>
                 <legend>Información del paciente</legend>
-                <label for="">Nombre del paciente</label>
+                <label for="infoPaciente">Nombre del paciente</label>
                 <input type="field" placeholder="Ingrese su nombre" id="infoPaciente">
                 <button onClick="mostrarPaciente()">Aceptar</button>
             </fieldset>
 
             <!-- Setteo medicamento -->
+            <h3>Resultados</h3>
+            <ul id="containerResults">
 
-            <label for="nombreMedicamento">Medicamento</label>
-            <select name="nombreMedicamento" id="nombreMedicamento" onChange="seleccionarMed()">
-                <option value="0">Seleccione medicamento</option>
-            </select>
-            <fieldset>
-                <legend>Dosis</legend>
-                <label for="dosisCantidad">Cantidad</label>
-                <br>
-                <input type="number" id="dosisCantidad" onChange="getCantidad()">
-                <br>
-                <label for="dosisUnidad">Forma farmacéutica</label>
-                <select name="dosisUnidad" id="dosisUnidad">
-                    <option value="0">Seleccione unidad</option>
-                </select>
-            </fieldset>
 
-            <fieldset>
-                <legend>Frecuencia</legend>
-                <!-- <label for="dosisCantidad">Intervalo</label>
-                <input type="number" name="dosisCantidad">
-                
-                <label for="tiempoFormato">Formato tiempo</label>
-                <select name="tiempoFormato" id="">
-                    <option value="0">Minutos (Min)</option>
-                    <option value="1">Horas (Hr)</option>
-                    <option value="2">Días (D)</option>
-                </select> -->
-
-                <label for="fechaInicio">Fecha de inicio</label>
-                <br>
-                <input type="date" id="fechaInicio" name="fechaInicio">       
-                <br>
-                <label for="fechaFin">Fecha de finalización</label>
-                <br>
-                <input type="date" id="fechaFin" name="fechaFin" onChange="calcDuracion()">
-            </fieldset>
-
-            <!-- <button onclick="calcRefill()">Tengo suficiente medicación?</button> -->
-            <button id="btnStorage">Guardar prescripción</button>
-
-            <!-- <label for="viaAdministracion">Vía de adminitración</label>
-            <select name="viaAdministracion" id="">
-                <option value="1">Oral</option>
-                <option value="2">Sublingual</option>
-                <option value="3">Transdermal</option>
-                <option value="4">Intravenous</option>
-                <option value="5">Subcutaneous</option>
-                <option value="6">Inhalation</option>
-                <option value="6">Topical</option>
-            </select> -->
-
-            <!-- <fieldset>
-                <label for="estado">Estado</label>
-                <select name="estado" id="">
-                    <option value="1">Activo</option>
-                    <option value="2">Pausado</option>
-                    <option value="3">Finalizado</option>
-                    <option value="4">Cancelado</option>
-                </select>
-                <label for="razonCancelacion"></label>
-                <textarea name="" id="razonCancelacion" cols="1" rows="5">
-                </textarea>  
-            </fieldset>   -->
-
+            </ul>
         </aside>
-
-
 
         <main>
             <h3 id="infoPaciente"></h3>
-            <div id="container" class="sidepanel main__grid--fit">
+            <div id="containerMeds" class="sidepanel main__grid--fit">
                 
             </div>
             
@@ -106,7 +45,6 @@
 
             <div class="container--bottom">
                 
-                <p>Bottom</p>
 
             </div>
 
