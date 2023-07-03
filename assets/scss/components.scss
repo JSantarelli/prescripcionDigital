@@ -1,16 +1,16 @@
 .main__grid--fit {
     display: grid;
-    grid-template-columns: 2fr;
-    grid-template-rows: 2fr;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: auto;
     gap: .5rem;
-    width: 100vw;
+    width: 100%;
 }
 
 .card--vertical {
-    height: 300px;
-    width: 200px;
+    height: 100%;
+    width: 100%;
     background-color: white;
-    box-shadow: 2px 5px 5px 10px lightblue;
+    // box-shadow: 2px 5px 5px 10px lightblue;
     padding: .5rem;
 }
 

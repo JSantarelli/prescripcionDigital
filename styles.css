@@ -33,14 +33,6 @@
   grid-row: 1;
   background-color: aquamarine;
 }
-.page__layout--basic main {
-  grid-column: 2;
-  grid-row: 2;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 480px 1fr;
-  position: relative;
-}
 .page__layout--basic main .sidepanel {
   grid-column: 1/-1;
   grid-row: 1/-1;
@@ -51,7 +43,7 @@
   z-index: 0;
 }
 .page__layout--basic main .containder--top {
-  grid-column: 2/-1;
+  grid-column: 1/-1;
   grid-row: 1;
   width: 100%;
   background-color: purple;
@@ -72,17 +64,16 @@
 
 .main__grid--fit {
   display: grid;
-  grid-template-columns: 2fr;
-  grid-template-rows: 2fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-rows: auto;
   gap: 0.5rem;
-  width: 100vw;
+  width: 100%;
 }
 
 .card--vertical {
-  height: 300px;
-  width: 200px;
+  height: 100%;
+  width: 100%;
   background-color: white;
-  box-shadow: 2px 5px 5px 10px lightblue;
   padding: 0.5rem;
 }
 

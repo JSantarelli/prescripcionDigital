@@ -48,12 +48,12 @@
     }
 
     main {
-        grid-column: 2;
-        grid-row: 2;
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: 480px 1fr;
-        position: relative;
+        // grid-column: 2;
+        // grid-row: 2;
+        // display: grid;
+        // grid-template-columns: repeat(6, 1fr);
+        // grid-template-rows: 480px 1fr;
+        // position: relative;
         
         
         .sidepanel {
@@ -71,7 +71,7 @@
             }
         
         .containder--top {
-            grid-column: 2 / -1;
+            grid-column: 1 / -1;
             grid-row: 1;
             width: 100%;
 
