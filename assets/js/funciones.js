@@ -110,7 +110,7 @@ displayPrescription = () => {
                 <input type="number" id="${i}" onchange="getMedCount(${i})"/><br>
 
                 <label for="presentationType">Type</label><br>
-                <select name="presentationType" class="selectTypes" id="selectType-${i}">
+                <select name="presentationType" class="selectTypes" id="selectType--${i}">
                   <option id="0">Select a type</option>
                 </select><br>
                 
@@ -167,15 +167,18 @@ getMedCount = (i) => {
 getMedTypes = () => {
   const arrayCategorias = vademecum.map ((med)=> { return med.presentacion.formaFarmaceutica })
   const categoriasUnicas = [...new Set (arrayCategorias)]
-  const typeOptions = document.getElementById('selectType-0')
-  categoriasUnicas.forEach((formaFarmaceutica) => {
-  const results = vademecum.filter((med)=> med.presentacion.formaFarmaceutica === formaFarmaceutica)
-
-    for(let i in results) {
-      typeOptions.innerHTML += 
-        `<option>${results[i].presentacion.formaFarmaceutica}</option>`
-    }
-  })
+  const typeOptions = document.querySelectorAll('[id^="selectType--"]').forEach( function(select) {
+    // console.log(select)
+    categoriasUnicas.forEach((formaFarmaceutica) => {
+    const results = vademecum.filter((med)=> med.presentacion.formaFarmaceutica === formaFarmaceutica)
+  
+      for(let i = 0; i < results.length; i++) {
+        select.innerHTML += 
+          `<option>${results[i].presentacion.formaFarmaceutica}</option>`
+      }
+    })
+  }
+  )
 }
 
 getMedTypes()
