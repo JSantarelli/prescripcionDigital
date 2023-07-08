@@ -6,8 +6,10 @@
         <script defer src="assets/js/meds.json"></script>
         <script defer src="assets/js/meds.js"></script>
         <script defer src="assets/js/funciones.js"></script>
+        <script defer src="assets/js/libraries.js"></script>
         <!-- Libraries -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script> -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="page__layout--basic">
 
@@ -38,6 +40,8 @@
             <p id="treatmentDuration"></p>
 
             <div id="containerMeds" class="main__grid--fit">
+                <button id="removePrescription">Delete all meds</button>
+                <section id="localMeds"></section>
                 
             </div>
             

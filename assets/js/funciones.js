@@ -10,6 +10,7 @@ FLUJO BASICO
 3. Meds seleccionados se muestran en contenedor
 4. Usuario guarda prescripción
 
+Machete: [^="start"]  [*="contain"]  [$="ends"]
 */
 
 // Muestro info paciente
@@ -61,6 +62,7 @@ getError = () => {
   }
 }
 
+
 listMeds = () => {
   //   for(let i in vademecum) {
   //   resultsContainer.innerHTML += 
@@ -77,23 +79,39 @@ listMeds = () => {
 }
 
 activateButtons = () => {
-  const buttons = document.querySelectorAll('button.card__btn--outline')
-  for (let btn of buttons) {
+  const addButtons = document.querySelectorAll('button.card__btn--outline')
+  for (let btn of addButtons) {
     btn.addEventListener('click', (e)=> {
         const selectedMed = vademecum.find((med) => med.id === parseInt(e.target.id))
         console.log(e.target.id, selectedMed)
-        prescription.push(selectedMed)
-        alert(`The med '${selectedMed.nombreComercial}' has been added`)
-        localStorage.setItem('prescription', JSON.stringify(prescription))
+
+        // MODAL
+        confirmMed = () => {
+          Swal.fire (
+            {
+              title: `The med '${selectedMed.nombreComercial}' has been added`,
+              showCancelButton: true,
+              confirmButtonText: 'Confirm',
+              cancelButtonText: 'Cancel',
+              // Define estructura para manipular respuestas según interacción del usuario
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  prescription.push(selectedMed)
+                  localStorage.setItem('prescription', JSON.stringify(prescription))
+                  Swal.fire( '${selectedMed.nombreComercial} has been added', 'Description text' , 'success')
+                      } else if (result.isDenied) {
+                      Swal.fire( '${selectedMed.nombreComercial} could not be added', '', 'info')
+              }
+          })
+        }
+        confirmMed()
       })
     }
 }
 
+
 listMeds()
 
-function removeMed() {
-  localStorage.removeItem()
-}
 
 // Cargo tarjetas de meds
 const containerMeds = document.querySelector('div#containerMeds')
@@ -128,15 +146,15 @@ displayPrescription = () => {
                 <hr>
                 <legend>Time frame</legend>
                   <label for="${i}">Start date</label>
-                  <input type="date" id="${i}" onchange="getStartDate(${i})"/>
+                  <input type="date" id="startDate--${i}" onchange="getStartDate(${i})"/>
 
                   <label for="${i}">End date</label>
-                  <input type="date" id="${i}" onchange="getEndDate(${i})"/>
-                  <h5 class="startDateHolder"></h5>
-                  <h5 class="endDateHolder"></h5>
-                  <button onclick="removeMed()">x</button>
+                  <input type="date" id="endDate--${i}" onchange="getEndDate(${i})"/>
+                  <h5 id="startDateHolder--${i}" class="startDateHolder"></h5>
+                  <h5 id="endDateHolder--${i}" class="endDateHolder"></h5>
+                  <button id="removeBtn--${i}" class="form__btn--warn">x</button>
                   <button type="submit" disabled>Editar</button>
-                  <button type="submit">Guardar</button>
+                  <button type="button" id="saveButton--${i}" onclick="savePrescription()">Guardar</button>
               </fieldset>
             </form>
           </div>`
@@ -167,8 +185,7 @@ getMedCount = (i) => {
 getMedTypes = () => {
   const arrayCategorias = vademecum.map ((med)=> { return med.presentacion.formaFarmaceutica })
   const categoriasUnicas = [...new Set (arrayCategorias)]
-  const typeOptions = document.querySelectorAll('[id^="selectType--"]').forEach( function(select) {
-    // console.log(select)
+  document.querySelectorAll('[id^="selectType--"]').forEach((select) =>
     categoriasUnicas.forEach((formaFarmaceutica) => {
     const results = vademecum.filter((med)=> med.presentacion.formaFarmaceutica === formaFarmaceutica)
   
@@ -176,13 +193,12 @@ getMedTypes = () => {
         select.innerHTML += 
           `<option>${results[i].presentacion.formaFarmaceutica}</option>`
       }
-    })
-  }
+    }
+    )
   )
 }
 
 getMedTypes()
-
 
 
 // CALENDAR
@@ -199,45 +215,112 @@ getMedTypes()
 
 // const savePrescription = document.querySelector("button [type='submit']")
 
-calcDuration = (i) => {
-  const startDateText = document.querySelectorAll('h5.startDateHolder')
-  // if (startDateText.textContent !== '') {
-  //   for (let i = 0; i < startDateText.length; i++) {
-  //     console.log(startDateText[i])
-  //   }
-  // }
-  // const endDateHolder = document.querySelectorAll('h5.endDateHolder')
+const inputsStartDate = document.querySelectorAll('[id^="startDate--"]')
+const inputsEndDate = document.querySelectorAll('[id^="endDate--"]')
+const startDateHolder = document.querySelectorAll('[id^="startDateHolder--"]')
+const endDateHolder = document.querySelectorAll('[id^="endDateHolder--"]')
 
-  // let treatmentDuration = new Date(endDateHolder).getTime() - new Date(startDateHolder).getTime();
+// var date1 = new Date(document.getElementById("fromDatePicker").value);
+// var date2 = new Date(document.getElementById("toDatePicker").value);
+
+// var difference = date2 - date1;
+
+// var days = difference/(24*3600*1000);
+
+calcDuration = () => {
+
+    inputsStartDate.forEach((startHolder) => {
+      
+      if (inputsStartDate.textContent !== '') {
+        const n = document.getElementById(startHolder.id).value
+        let x = new Date(n).getTime()
+        console.log(x)
+      }  })
+      
+      endDateHolder.forEach((endHolder) => {
+        if (endDateHolder.textContent !== '') {
+          const c = document.getElementById(endHolder.id).value
+          let d = new Date(c).getTime()
+          console.log(d)
+        }
+      })
+      
+  
+  // let treatmentDuration = new Date(endDateValue).getTime() - new Date(startDateValue).getTime();
   // let treatmentDays = treatmentDuration / (1000 * 3600 * 24);
+
   // document.getElementById("treatmentDuration").innerHTML = treatmentDays;
-  // console.log(treatmentDays)
 }
 
+
+savePrescription = () => {
+  document.querySelectorAll('[id^="saveButton--"]').forEach((btn) => {
+    
+    btn.addEventListener('click', (e)=> {
+      calcDuration()
+    }
+
+ ) }) 
+}
+
+// Borrar prescripción entera
+const removeBtn = document.getElementById('removePrescription')
+
+removeBtn.addEventListener('click', (e)=> {
+    localStorage.removeItem('prescription')
+  }
+)
+
+// Borrado selectivo
+removeMed = () => {
+  // prescription.forEach((i) => {
+    const xBtn = document.querySelectorAll('[id^="removeBtn--"]')
+    console.log(xBtn.length)
+    for (let i = 0; i < xBtn.length; i++) {
+      xBtn[i].addEventListener('click', (e)=> {
+        
+        const selectedLocalMed = prescription.find((localMed) => localMed.id === parseInt(e.target.id))
+        prescription.splice(selectedLocalMed, i)
+        // console.log(selectedLocalMed)
+        
+        // if (localMed.id == e.target.id) {
+        //   localMed.splice(i, 1);
+        //   }
+        }
+      )
+    }
+}
+  
+  // for (let i =0; i < prescription.length; i++) {
+  //   ) 
+  //   localMed = JSON.stringify(prescription)
+  //   localStorage.setItem('prescription', prescription)
+  // }
+
+
+
+
+// CALENDAR
 getStartDate = (i) => {
-  const inputsStartDate = document.querySelectorAll('input[type="date"]')
-  const startDateHolder = document.querySelectorAll('h5.startDateHolder')
+  
   for (let i = 0; i < inputsStartDate.length; i++) {
-    inputsStartDate[i].onclick = function() {
-      // console.log(inputsStartDate[i].value)
-      startDateHolder[i].textContent = inputsStartDate[i].value
+    startDateHolder[i].textContent = inputsStartDate[i].value
+    let d = inputsStartDate[i].value
+    let x = new Date(d).getTime()
+    if (startDateHolder.textContent != '') {
     }
   }
 }
 
 getEndDate = (i) => {
-  const inputsEndDate = document.querySelectorAll('input[type="date"]')
-  const endDateHolder = document.querySelectorAll('h5.endDateHolder')
+
   for (let i = 0; i < inputsEndDate.length; i++) {
-    inputsEndDate[i].onclick = function() {
-      // console.log(inputsEndDate[i].value)
-      endDateHolder[i - 1].textContent = inputsEndDate[i].value
+    endDateHolder[i].textContent = inputsEndDate[i].value
     }
-    // calcDuration()
   }
-}
 
 
+// INTERACTIVIDAD
 
 // let elements = document.querySelectorAll('div');
 // for (var x = 0; x < elements.length; x++) {
