@@ -1,3 +1,20 @@
+button {
+    color: white;
+    height: 24px;
+    font-size: .75rem;
+    border-radius: 25px;
+    text-transform: uppercase;
+    box-shadow: none!important;
+    border: 0;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    background-color: $colorTerciario;
+    cursor: pointer;
+}
+
 .main__grid--fit {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -12,6 +29,10 @@
     background-color: white;
     // box-shadow: 2px 5px 5px 10px lightblue;
     padding: .5rem;
+
+    input, select {
+        width: 100%;
+    }
 }
 
 

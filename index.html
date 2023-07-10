@@ -3,32 +3,35 @@
     <head>
         <title>JS!</title>
         <link rel="stylesheet" href="./styles.css">
-        <script defer src="assets/js/meds.json"></script>
+        <!-- <script defer src="assets/js/meds.json"></script> -->
         <script defer src="assets/js/meds.js"></script>
-        <script defer src="assets/js/funciones.js"></script>
-        <script defer src="assets/js/libraries.js"></script>
+        <script defer src="assets/js/functions.js"></script>
+        <script defer src="assets/js/readPrescription.js"></script>
+        <script defer src="assets/js/createPrescription.js"></script>
         <!-- Libraries -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script> -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="page__layout--basic">
 
         <!-- App header -->
         <header>
-
+            <h1>Prescription manager system</h1>
+            <button id="removePrescription">Delete all meds</button>
+            <button id="savePrescription" onclick="savePrescription()">Save prescription</button>
         </header>
 
         <aside>
             
             <fieldset>
-                <legend>Información del paciente</legend>
-                <label for="patientInfo">Nombre del paciente</label>
+                <legend>Patient information</legend>
+                <label for="patientInfo">Patient name</label>
                 <input type="field" placeholder="Ingrese su nombre" id="patientInfo">
                 <button id="btnRegister" onchange="displayPatientInfo()">Register patient</button>
             </fieldset>
-
+            <hr>
+            <h1>Search</h1>
             <!-- Setteo medicamento -->
-            <h3>Resultados</h3>
+            <h3>Results</h3>
             <ul id="containerResults">
 
 
@@ -36,34 +39,35 @@
         </aside>
 
         <main>
-            <h3 id="namePatient"></h3>
             <p id="treatmentDuration"></p>
 
+
             <div id="containerMeds" class="main__grid--fit">
-                <button id="removePrescription">Delete all meds</button>
-                <section id="localMeds"></section>
+                <!-- <section id="localMeds"></section> -->
                 
             </div>
             
             <div class="container--top">
-                  
+                <!-- Cambia visibilidad al salvar la prescripción -->
+                <section id="containerSummary">
+                    <h3 id="namePatient"></h3>
+                    <hr>
+                    <button onclick="backPrescriptions()">Back to prescriptions</button>
+                </section>
+ 
             </div>
 
             <div class="container--bottom">
-                <!-- <form>
-                    <label for="medStart">Start Date:</label>
-                    <input type="date" id="medStart" name="medStart" required>
-                    <label for="medEnd">End Date:</label>
-                    <input type="date" id="medEnd" name="medEnd" required>           
-                  </form> -->
+
             </div>
+
 
         </main>
 
         <footer>
             <p>Footer!</p>
         </footer>
-
+        
     </body>
 
 </html>

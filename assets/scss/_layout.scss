@@ -29,8 +29,8 @@
         justify-content: start;
         background-color: $colorPrimario;
         width: var(--sidenavWidth);
-        color: steelblue;
 
+        color: white;
         padding: 1rem;
 
         // &:hover {
@@ -38,13 +38,29 @@
         //     width: var(--sidenavWidth);
         //     transition: width 900ms ease;
         // }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            border-bottom: 1px white;
+            list-style: none;
+            margin-bottom: 1rem;
+
+            h3 {
+                margin: 0.25rem;
+            }
+        }
     }
 
     header {
         grid-column: 1 / -1;
         grid-row: 1;
-
-        background-color: aquamarine;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        // background-color: aquamarine;
     }
 
     main {
